@@ -29,7 +29,7 @@
 ##
 #usage: stnbo.py filename atindex1 atindex2 uhf/rhf [verbosiness] 
 #
-#This uses a slightly modified NBO output as an input, so you need the NBO program.
+#This uses a standard (i.e. no need for any keyword in the FILE.47) NBO output as an input, so you need the NBO program by Weinhold et al.
 #
 
 
@@ -96,7 +96,7 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 			aindex[0].append(int(i[15:17]))  #the ids of the donating atoms.
 			aindex[0].append(int(i[20:22]))
 		else:
-			aindex[0].append(int(i[15:17]))  #if is not BD, is a lone pair of core, so it only have one atom id
+			aindex[0].append(int(i[15:17]))  #if is not BD or BD*, is a lone pair of core, so it only have one atom id
 		if i[33:35]=="BD": #the receiving bond
 			aindex[1].append(int(i[42:44])) #the ids of the receiving atoms
 			aindex[1].append(int(i[47:49]))
@@ -107,7 +107,7 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 		if not aindex[0] or not aindex[1]:
 			print "empty index"
 			continue	
-		if (aindex[0]==aindex[1] or aindex[1].reverse()==aindex[0]): #redundant. a donation from a pair to the same pair would have no net effect.
+		if (aindex[0]==aindex[1] or aindex[1].reverse()==aindex[0]): #Redundant. A donation from a pair to the same pair would have no net effect.
 			continue
 		delocs.append(copy.deepcopy(deloc_dict))
 		delocs[-1]["E2"]=float(i[54:63])
@@ -119,7 +119,7 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 		delocs[-1]["aceptor"]=aindex[1]
 		delocs[-1]["id"]=deloc_id
 		if len(delocs[-1].keys())!=9:
-			raise KeyError # "len of dict is", len(delocs[-1]), "should be 9"
+			raise KeyError # Something would be wrong with the code.
 		deloc_id=deloc_id+1
 	####
 	####  This is the fun part, where we use the data collected upthere to get the delocalization
@@ -143,7 +143,7 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 		if len(bond_delocs)<1: ####no donor aceptor interaction from this pair in this order
 			continue
 		for j in bond_delocs:
-			comp_delocs_orb=[] ##competing for current_orbital
+			comp_delocs_orb=[] ##competing delocs for current_orbital
 			comp_coefs_sq_sum=0 #sum of squares of all elements in previous list
 			coef=(1.0*j["F"])/j["deltaE"]   ##float assured
 			for k in comp_delocs:  #competing interaction with other atoms
@@ -188,7 +188,7 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 						if (verbosity in (1,3)):  #donations to antobonding were tagged previously adding a minus sign to the fock matrix value.
 							print "donation to an antibonding"
 					else:
-						continue  # We don't allow donations to orbitals that are full at unperturbed level.
+						continue  # Donations to orbitals already full at unperturbed level are not addmited.
 				coef=(1.0*k["F"])/k["deltaE"]
 				den=(1+(coef**2)+comp_coefs_sq_sum)**(0.5)
 				coef=coef/den
@@ -220,7 +220,7 @@ def pair_bond(filename,pair,spinstate,verbosity):
 	spin="t"
 	while True: 
 		i=fin.readline()
-		if "****END" in i:
+		if len(i)==0:
 			break
 		if "****         Alpha spin orbitals         ****" in i:
 			spin="a"
