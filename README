@@ -1,0 +1,23 @@
+If you use this for your work, please cite:
+
+Mera-Adasme, R. Mendizabal, F., Olea-Azar, C., Miranda-Rojas, S., Fuentalaba, P., "A Computationally Efficient and Reliable Bond Order Measure", 
+
+Needs: Python 2.6.x, numpy (tested with version 1.4.1).
+
+How to use:
+
+In Linux/UNIX imply type (assuming the file fopBO.py is in your path):
+
+fopBO.py filename atom1 atom2 spinmode verbosity
+
+where:
+
+Filename is an NBO output file. An outout from a default run of NBO (i.e. without any options in the file.47) is enough.
+
+Atom1 and atoms2 are the numbers for the atoms whose interaction is to be evaluated in the NBO file.47 input file.
+
+Spinmode is either "rhf" for closed-shell calculations and "uhf", for open-shell calculations. 
+
+Verbosity: The verbosity level in the output. Can be 0, 1, 2 or 3 (default 0).
+
+

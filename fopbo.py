@@ -27,9 +27,11 @@
 ##
 ##Dedicated to the long life of the Ven. Khempo Phunstok Tenzin Rinpoche
 ##
-#usage: stnbo.py filename atindex1 atindex2 uhf/rhf [verbosiness] 
+#usage: fopbo.py filename atindex1 atindex2 uhf/rhf [verbosiness] 
 #
-#This uses a standard (i.e. no need for any keyword in the FILE.47) NBO output as an input, so you need the NBO program by Weinhold et al.
+#
+#This uses a default (i.e. no need for any keyword in the FILE.47) NBO output 
+#as an input, so you need the NBO program by Weinhold et al. (http://www.chem.wisc.edu/~nbo5/)
 #
 
 
@@ -107,7 +109,7 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 		if not aindex[0] or not aindex[1]:
 			print "empty index"
 			continue	
-		if (aindex[0]==aindex[1] or aindex[1].reverse()==aindex[0]): #Redundant. A donation from a pair to the same pair would have no net effect.
+		if (aindex[0]==aindex[1] or aindex[1].reverse()==aindex[0]): #Probably not needed since a donatio from an orbital to the same would have no effect, but is nicer this way.
 			continue
 		delocs.append(copy.deepcopy(deloc_dict))
 		delocs[-1]["E2"]=float(i[54:63])
@@ -127,7 +129,7 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 	####
 
 	#the 2 previous should go with one more identation level andunder the next for bucle, thus saving the additional cleaning of these values later (lins 207 and 208).
-	bond_contribs=[] # contributions to bonding. the sum of this is the retunr value
+	bond_contribs=[] # contributions to bonding. the sum of this is the return value
 	for d in range(len(pair)):  #first 0 donor 1 aceptor, then reversed.
 		comp_delocs=[] #competing delocalizataions with those of current pair will be used twice, once for each member of the pair acting as donor.
 		bond_delocs=[] #delocalizations between the current pair in the current donor-aceptor order
@@ -204,7 +206,7 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 	total_border=additional_interactions+destabilization_count
 	if verbosity in (2,3):
 		print "additional contributions to bonding:", additional_interactions
-		print "destabilizations:                   ", destabilization_count#total_border- additional_interactions
+		print "destabilizations:                   ", destabilization_count
 	return total_border
 
 
@@ -251,7 +253,7 @@ filename=sys.argv[1]
 atoms=[]
 
 if len(sys.argv)==5:
-	sys.argv.append(0)
+	sys.argv.append(0) 
 
 pair_bond(filename,[int(sys.argv[2]),int(sys.argv[3])],sys.argv[4],int(sys.argv[5]))
 	
