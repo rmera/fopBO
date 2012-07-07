@@ -43,7 +43,7 @@ from numpy.oldnumeric.mlab import std, mean
 deloc_dict=dict(id=0,E2=0.0,F=0.0,deltaE=0.0,coef=0.0,donorb=0,aceptorb=0,donor=[],aceptor=[])
 
 
-#gets a preeliminary bond order consisting in the bonding-antibonding NBOs each multiplied by half its occupation number.
+#gets a preeliminary bond order consisting in the bonding-antibonding NBOs 
 def nbo_bond_order(fin,pair,spin):
 	bond_order=0
 	ids=[]
@@ -91,7 +91,8 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 			continue
 		if (not i[55:62].replace(" ","").replace("-","").replace(".","").isdigit()): #skip if the delocalization energy is below thres_deloc
 			continue
-		while  "A" in i:   #useful is 110 > number of atoms > 100, won't work for bigger molecules. Needs a nicer fix. 
+		#this is an ugly, Q&D fix to read atoms > 100 and < 110. I need a nicer fix.
+		while  "A" in i: 
 			place=i.index("A")
 			i=i[:place]+"10"+i[place+1]+i[place+3:]
 		if i[6:8]=="BD":
@@ -190,7 +191,7 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 						if (verbosity in (1,3)):  #donations to antobonding were tagged previously adding a minus sign to the fock matrix value.
 							print "donation to an antibonding"
 					else:
-						continue  # Donations to orbitals already full at unperturbed level are not addmited.
+						continue  # Donations to orbitals already full at unperturbed level are not accepted.
 				coef=(1.0*k["F"])/k["deltaE"]
 				den=(1+(coef**2)+comp_coefs_sq_sum)**(0.5)
 				coef=coef/den

@@ -1,8 +1,13 @@
+This programs obtains the fopBO (first order perturbation theory bond order) for a given molecule.
+It reads the output of a default NBO run, so the NBO program by Weinhold et al. 
+(http://www.chem.wisc.edu/~nbo5/) is needed.
+
 If you use this for your work, please cite:
 
-Mera-Adasme, R. Mendizabal, F., Olea-Azar, C., Miranda-Rojas, S., Fuentalaba, P., "A Computationally Efficient and Reliable Bond Order Measure", 
+Mera-Adasme, R. Mendizabal, F., Olea-Azar, C., Miranda-Rojas, S., Fuentalaba, P., "A Computationally 
+Efficient and Reliable Bond Order Measure", 
 
-Needs: Python 2.6.x, numpy (tested with version 1.4.1).
+Needs: Python 2.6.x, numpy (tested with version 1.4.1), NBO 5
 
 How to use:
 
@@ -20,4 +25,6 @@ Spinmode is either "rhf" for closed-shell calculations and "uhf", for open-shell
 
 Verbosity: The verbosity level in the output. Can be 0, 1, 2 or 3 (default 0).
 
+
+Currently the script can manage up to 110 atoms.
 
