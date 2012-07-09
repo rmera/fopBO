@@ -5,7 +5,7 @@ It reads the output of a default NBO run, so the NBO program by Weinhold et al.
 If you use this for your work, please cite:
 
 Mera-Adasme, R. Mendizabal, F., Olea-Azar, C., Miranda-Rojas, S., Fuentalaba, P., "A Computationally 
-Efficient and Reliable Bond Order Measure", 
+Efficient and Reliable Bond Order Measure", Phys Chem A, 2011, 
 
 Needs: Python 2.6.x, numpy (tested with version 1.4.1), NBO 5
 

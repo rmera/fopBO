@@ -39,7 +39,6 @@ import sys, copy
 from numpy.oldnumeric import array
 from numpy.oldnumeric.mlab import std, mean
 
-
 deloc_dict=dict(id=0,E2=0.0,F=0.0,deltaE=0.0,coef=0.0,donorb=0,aceptorb=0,donor=[],aceptor=[])
 
 
@@ -52,6 +51,7 @@ def nbo_bond_order(fin,pair,spin):
 		if " NHO DIRECTIONALITY AND BOND BENDING (deviations from line of nuclear centers)" in i: #this is where the bond listing section ends.
 			break 
 		if i[0:4].replace(" ","").replace("-","").replace(".","").isdigit() and len(i)>=28:
+			print i ##############################3
 			if "BD" in i and int(i[25:28]) in pair and int(i[31:34]) in pair:
 				ids.append(int(i[:4]))
 				bond_ponderation=1 #change to include only covalent contributions
