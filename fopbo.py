@@ -48,12 +48,15 @@ def nbo_bond_order(fin,pair,spin):
 	ids=[]
 	while True:
 		i=fin.readline()
-		if " NHO DIRECTIONALITY AND BOND BENDING (deviations from line of nuclear centers)" in i: #this is where the bond listing section ends.
+		if "NHO Directionality and" in i: #this is where the bond listing section ends.
 			break 
-		if i[0:4].replace(" ","").replace("-","").replace(".","").isdigit() and len(i)>=28:
-			print i ##############################3
-			if "BD" in i and int(i[25:28]) in pair and int(i[31:34]) in pair:
-				ids.append(int(i[:4]))
+		if i[0:6].replace(" ","").replace("-","").replace(".","").isdigit() and len(i)>=28:
+			#print i ##############################3
+			##TEST!!!
+			if "14. (1.98784) BD ( 1) C   5 -Cl  12" in i:
+				print "1 ", i[29:31], " 2 ", i[37:40]
+			if "BD" in i and int(i[29:31]) in pair and int(i[37:40]) in pair:
+				ids.append(int(i[:6]))
 				bond_ponderation=1 #change to include only covalent contributions
 				if "BD*" in i:
 					continue
@@ -85,39 +88,46 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 		antibond=1 #-1 for antibonding orbital, 1 for bonding orbital
 		aindex=[[],[]] #atoms in the bond data.
 		i=fin.readline()
-		if "RAL BOND ORBITALS (Summary)" in i:
+		if "Natural Bond Orbitals (Summary)" in i:
 			break
-		if len(i)<62:
+		if len(i)<82:
 			continue
-		if (not i[55:62].replace(" ","").replace("-","").replace(".","").isdigit()): #skip if the delocalization energy is below thres_deloc
+		if (not i[76:82].replace(" ","").replace("-","").replace(".","").isdigit()): #skip if the delocalization energy is below thres_deloc
+		#	print i####################################################3
 			continue
+		#print i #####################################################
 		#this is an ugly, Q&D fix to read atoms > 100 and < 110. I need a nicer fix.
 		while  "A" in i: 
 			place=i.index("A")
 			i=i[:place]+"10"+i[place+1]+i[place+3:]
 		if i[6:8]=="BD":
-			aindex[0].append(int(i[15:17]))  #the ids of the donating atoms.
-			aindex[0].append(int(i[20:22]))
+			#print "bond!" ###############################################
+			aindex[0].append(int(i[19:21]))  #the ids of the donating atoms.
+			aindex[0].append(int(i[27:29]))
 		else:
-			aindex[0].append(int(i[15:17]))  #if is not BD or BD*, is a lone pair of core, so it only have one atom id
-		if i[33:35]=="BD": #the receiving bond
-			aindex[1].append(int(i[42:44])) #the ids of the receiving atoms
-			aindex[1].append(int(i[47:49]))
-			if i[35]=="*" and aindex[1][0] in pair and aindex[1][1] in pair: #value of antibond allows to substract contributions donated to antibonding orbitals, so is important that the atoms in the antibond belongs to the pair.
+			#print i#####################################
+			aindex[0].append(int(i[19:21]))  #if is not BD or BD*, is a lone pair of core, so it only have one atom id
+	#	print i[43:45], i ##################################################
+		if i[43:45]=="BD": #the receiving bond
+			##print i[43:45],"ALALA" ########################################3
+			aindex[1].append(int(i[55:58])) #the ids of the receiving atoms
+			aindex[1].append(int(i[63:66]))
+		#	print i[45] ########################################3
+			if i[45]=="*" and aindex[1][0] in pair and aindex[1][1] in pair: #value of antibond allows to substract contributions donated to antibonding orbitals, so is important that the atoms in the antibond belongs to the pair.
 				antibond=-1	
 		else:
-			aindex[1].append(int(i[42:44]))
+			aindex[1].append(int(i[55:58]))
 		if not aindex[0] or not aindex[1]:
 			print "empty index"
 			continue	
 		if (aindex[0]==aindex[1] or aindex[1].reverse()==aindex[0]): #Probably not needed since a donatio from an orbital to the same would have no effect, but is nicer this way.
 			continue
 		delocs.append(copy.deepcopy(deloc_dict))
-		delocs[-1]["E2"]=float(i[54:63])
-		delocs[-1]["deltaE"]=float(i[63:70])
-		delocs[-1]["F"]=float(i[71:79])*antibond
+		delocs[-1]["E2"]=float(i[76:83])
+		delocs[-1]["deltaE"]=float(i[84:90])
+		delocs[-1]["F"]=float(i[92:99])*antibond
 		delocs[-1]["donorb"]=int(i[0:4])
-		delocs[-1]["aceptorb"]=int(i[27:31])
+		delocs[-1]["aceptorb"]=int(i[38:41])
 		delocs[-1]["donor"]=aindex[0]
 		delocs[-1]["aceptor"]=aindex[1]
 		delocs[-1]["id"]=deloc_id
@@ -234,7 +244,8 @@ def pair_bond(filename,pair,spinstate,verbosity):
 			data.append([bond_order,ids])
 			if verbosity in (2,3):
 				print "Unperturbed Bond Order", bond_order
-		if "SECOND ORDER PERTURBATION THEORY ANALYSIS OF FOCK MATRIX IN NBO BASIS" in i:
+		if "Second Order Perturbation Theory Analysis of Fock Matrix in NBO Basis" in i:
+			#print "CALLED!" #########################################################
 			data[-1][0]=data[-1][0]+deloc_bond_order(fin,copy.copy(pair),copy.copy(data[-1][1]),spinstate,verbosity)
 	print "Bond Orders"	
 	for j in data:
