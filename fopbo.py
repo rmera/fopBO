@@ -93,26 +93,19 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 		if len(i)<82:
 			continue
 		if (not i[76:82].replace(" ","").replace("-","").replace(".","").isdigit()): #skip if the delocalization energy is below thres_deloc
-		#	print i####################################################3
 			continue
-		#print i #####################################################
 		#this is an ugly, Q&D fix to read atoms > 100 and < 110. I need a nicer fix.
 		while  "A" in i: 
 			place=i.index("A")
 			i=i[:place]+"10"+i[place+1]+i[place+3:]
 		if i[6:8]=="BD":
-			#print "bond!" ###############################################
 			aindex[0].append(int(i[19:21]))  #the ids of the donating atoms.
 			aindex[0].append(int(i[27:29]))
 		else:
-			#print i#####################################
 			aindex[0].append(int(i[19:21]))  #if is not BD or BD*, is a lone pair of core, so it only have one atom id
-	#	print i[43:45], i ##################################################
 		if i[43:45]=="BD": #the receiving bond
-			##print i[43:45],"ALALA" ########################################3
 			aindex[1].append(int(i[55:58])) #the ids of the receiving atoms
 			aindex[1].append(int(i[63:66]))
-		#	print i[45] ########################################3
 			if i[45]=="*" and aindex[1][0] in pair and aindex[1][1] in pair: #value of antibond allows to substract contributions donated to antibonding orbitals, so is important that the atoms in the antibond belongs to the pair.
 				antibond=-1	
 		else:
