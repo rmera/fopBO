@@ -33,7 +33,9 @@
 #This uses a default (i.e. no need for any keyword in the FILE.47) NBO output 
 #as an input, so you need the NBO program by Weinhold et al. (http://www.chem.wisc.edu/~nbo5/)
 #
-
+# If you use this program, please cite: 
+#Raul Mera-Adasme, Fernando Mendizabal, Claudio Olea-Azar, Sebastian Miranda-Rojas, and Patricio Fuentealba,
+#"A Computationally Efficient and Reliable Bond Order Measure", J. Phys. Chem. A, 2011, 115 (17), pp 4397–4405
 
 import sys, copy
 from numpy.oldnumeric import array
@@ -51,10 +53,6 @@ def nbo_bond_order(fin,pair,spin):
 		if "NHO Directionality and" in i: #this is where the bond listing section ends.
 			break 
 		if i[0:6].replace(" ","").replace("-","").replace(".","").isdigit() and len(i)>=28:
-			#print i ##############################3
-			##TEST!!!
-			if "14. (1.98784) BD ( 1) C   5 -Cl  12" in i:
-				print "1 ", i[29:31], " 2 ", i[37:40]
 			if "BD" in i and int(i[29:31]) in pair and int(i[37:40]) in pair:
 				ids.append(int(i[:6]))
 				bond_ponderation=1 #change to include only covalent contributions

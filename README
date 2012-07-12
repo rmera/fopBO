@@ -2,10 +2,11 @@ This programs obtains the fopBO (first order perturbation theory bond order) for
 It reads the output of a default NBO run, so the NBO program by Weinhold et al. 
 (http://www.chem.wisc.edu/~nbo5/) is needed.
 
-If you use this for your work, please cite:
+If you use this program for your work, please cite:
 
-Mera-Adasme, R. Mendizabal, F., Olea-Azar, C., Miranda-Rojas, S., Fuentalaba, P., "A Computationally 
-Efficient and Reliable Bond Order Measure", Phys Chem A, 2011, 
+Raul Mera-Adasme, Fernando Mendizabal, Claudio Olea-Azar, Sebastian Miranda-Rojas, and Patricio Fuentealba,
+"A Computationally Efficient and Reliable Bond Order Measure", J. Phys. Chem. A, 2011, 115 (17), pp 4397–4405
+
 
 Needs: Python 2.6.x, numpy (tested with version 1.4.1), NBO 5
 
