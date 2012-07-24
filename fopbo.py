@@ -31,11 +31,11 @@
 #
 #
 #This uses a default (i.e. no need for any keyword in the FILE.47) NBO output 
-#as an input, so you need the NBO program by Weinhold et al. (http://www.chem.wisc.edu/~nbo5/)
+#as an input, so you need the NBO program by Weinhold et al. 
 #
 # If you use this program, please cite: 
 #Raul Mera-Adasme, Fernando Mendizabal, Claudio Olea-Azar, Sebastian Miranda-Rojas, and Patricio Fuentealba,
-#"A Computationally Efficient and Reliable Bond Order Measure", J. Phys. Chem. A, 2011, 115 (17), pp 4397–4405
+#"A Computationally Efficient and Reliable Bond Order Measure", J. Phys. Chem. A, 2011, 115 (17), pp 4397-4405
 
 import sys, copy
 from numpy.oldnumeric import array
