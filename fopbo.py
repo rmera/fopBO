@@ -96,17 +96,17 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 			place=i.index("A")
 			i=i[:place]+"10"+i[place+1]+i[place+3:]
 		if i[6:8]=="BD":
-			aindex[0].append(int(i[15:17]))  #the ids of the donating atoms.
-			aindex[0].append(int(i[20:22]))
+			aindex[0].append(int(i[17:19]))  #the ids of the donating atoms.
+			aindex[0].append(int(i[22:24]))
 		else:
-			aindex[0].append(int(i[15:17]))  #if is not BD or BD*, is a lone pair of core, so it only have one atom id
+			aindex[0].append(int(i[17:19]))  #if is not BD or BD*, is a lone pair of core, so it only have one atom id
 		if i[33:35]=="BD": #the receiving bond
-			aindex[1].append(int(i[42:44])) #the ids of the receiving atoms
-			aindex[1].append(int(i[47:49]))
+			aindex[1].append(int(i[45:47])) #the ids of the receiving atoms
+			aindex[1].append(int(i[52:54]))
 			if i[35]=="*" and aindex[1][0] in pair and aindex[1][1] in pair: #value of antibond allows to substract contributions donated to antibonding orbitals, so is important that the atoms in the antibond belongs to the pair.
 				antibond=-1	
 		else:
-			aindex[1].append(int(i[42:44]))
+			aindex[1].append(int(i[45:47]))
 		if not aindex[0] or not aindex[1]:
 			print "empty index"
 			continue	
@@ -116,8 +116,8 @@ def deloc_bond_order(fin,pair,ids,spinstate,verbosity):
 		delocs[-1]["E2"]=float(i[54:63])
 		delocs[-1]["deltaE"]=float(i[63:70])
 		delocs[-1]["F"]=float(i[71:79])*antibond
-		delocs[-1]["donorb"]=int(i[0:4])
-		delocs[-1]["aceptorb"]=int(i[27:31])
+		delocs[-1]["donorb"]=int(i[0:5])
+		delocs[-1]["aceptorb"]=int(i[27:33])
 		delocs[-1]["donor"]=aindex[0]
 		delocs[-1]["aceptor"]=aindex[1]
 		delocs[-1]["id"]=deloc_id
@@ -229,7 +229,7 @@ def pair_bond(filename,pair,spinstate,verbosity):
 			spin="a"
 		if "****         Beta  spin orbitals         ****" in i:
 			spin="b"
-		if "(Occupancy)   Bond orbital/ Coefficients/ Hybrids" in i:
+		if "(Occupancy)   Bond orbital / Coefficients / Hybrids" in i:
 			bond_order,ids=nbo_bond_order(fin,pair,spinstate)   #list of at most 3 lists
 			data.append([bond_order,ids])
 			if verbosity in (2,3):
